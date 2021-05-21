@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://HejiangL.github.io</id>
     <title>GFP</title>
-    <updated>2021-05-21T01:30:51.787Z</updated>
+    <updated>2021-05-21T05:33:57.926Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://HejiangL.github.io"/>
     <link rel="self" href="https://HejiangL.github.io/atom.xml"/>
@@ -11,10 +11,17 @@
     <icon>https://HejiangL.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, GFP</rights>
     <entry>
-        <title type="html"><![CDATA[👏 使用教程]]></title>
+        <title type="html"><![CDATA[👏 开启新世界使用教程]]></title>
         <id>https://HejiangL.github.io/post/guide/</id>
         <link href="https://HejiangL.github.io/post/guide/">
         </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
+        <updated>2021-05-21T02:40:03.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Nginx 常用配置]]></title>
+        <id>https://HejiangL.github.io/post/nginxConfig/</id>
+        <link href="https://HejiangL.github.io/post/nginxConfig/">
+        </link>
+        <updated>2021-05-21T02:32:30.000Z</updated>
     </entry>
 </feed>

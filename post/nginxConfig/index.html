@@ -1,0 +1,553 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Nginx 常用配置 - GFP</title>
+<link rel="shortcut icon" href="https://HejiangL.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://HejiangL.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://HejiangL.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Nginx 常用配置 - GFP - Atom Feed" href="https://HejiangL.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="安装
+编译安装： nginx安装及其配置详细教程_weixin_30468137的博客-CSDN博客
+默认配置文件
+########### 每个指令必须有分号结束。#################
+#user administrator ..." />
+  <meta property="og:title" content="Nginx 常用配置 - GFP">
+  <meta property="og:description" content="安装
+编译安装： nginx安装及其配置详细教程_weixin_30468137的博客-CSDN博客
+默认配置文件
+########### 每个指令必须有分号结束。#################
+#user administrator ..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://HejiangL.github.io/post/nginxConfig/" />
+  <meta property="og:image" content="https://HejiangL.github.io/post-images/nginxConfig.jpg">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Nginx 常用配置 - GFP">
+  <meta name="twitter:description" content="安装
+编译安装： nginx安装及其配置详细教程_weixin_30468137的博客-CSDN博客
+默认配置文件
+########### 每个指令必须有分号结束。#################
+#user administrator ...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://HejiangL.github.io/post/nginxConfig/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://HejiangL.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://HejiangL.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      GFP
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Nginx 常用配置
+        </h1>
+        
+          <img src="https://HejiangL.github.io/post-images/nginxConfig.jpg" alt="Nginx 常用配置" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2021-05-21 · 8 min read</div>
+          
+            <a href="https://HejiangL.github.io/tag/BZ16AfVKJ/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              nginx
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h2 id="安装">安装</h2>
+<p>编译安装： <a href="https://blog.csdn.net/weixin_30468137/article/details/97678940?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-5&amp;spm=1001.2101.3001.4242">nginx安装及其配置详细教程_weixin_30468137的博客-CSDN博客</a></p>
+<h3 id="默认配置文件">默认配置文件</h3>
+<pre><code class="language-nginx">########### 每个指令必须有分号结束。#################
+#user administrator administrators;  #配置用户或者组，默认为nobody nobody。
+#worker_processes 2;  #允许生成的进程数，默认为1
+#pid /nginx/pid/nginx.pid;   #指定nginx进程运行文件存放地址
+error_log log/error.log debug;  #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg
+events {
+    accept_mutex on;   #设置网路连接序列化，防止惊群现象发生，默认为on
+    multi_accept on;  #设置一个进程是否同时接受多个网络连接，默认为off
+    #use epoll;      #事件驱动模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport
+    worker_connections  1024;    #最大连接数，默认为512
+}
+http {
+    include       mime.types;   #文件扩展名与文件类型映射表
+    default_type  application/octet-stream; #默认文件类型，默认为text/plain
+    #access_log off; #取消服务日志    
+    log_format myFormat '$remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for'; #自定义格式
+    access_log log/access.log myFormat;  #combined为日志格式的默认值
+    sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。
+    sendfile_max_chunk 100k;  #每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。
+    keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。
+
+    upstream mysvr {   
+      server 127.0.0.1:7878;
+      server 192.168.10.121:3333 backup;  #热备
+    }
+    error_page 404 https://www.baidu.com; #错误页
+    server {
+        keepalive_requests 120; #单连接请求上限次数。
+        listen    4545;   #监听端口
+        server_name  127.0.0.1;   #监听地址       
+        location  ~*^.+$ {       #请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
+           #root path;  #根目录
+           #index vv.txt;  #设置默认页
+           proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表
+           deny 127.0.0.1;  #拒绝的ip
+           allow 172.18.5.54; #允许的ip           
+        } 
+    }
+}
+</code></pre>
+<h2 id="常用命令">常用命令</h2>
+<ul>
+<li>
+<p><code>ngin</code> 启动服务</p>
+</li>
+<li>
+<p><code>nginx -s quit</code>停止服务</p>
+</li>
+<li>
+<p><code>ngix -s reload</code>重启配置文件</p>
+</li>
+<li>
+<p><code>nginx -t</code>检查nginx的配置文件</p>
+</li>
+</ul>
+<h2 id="配置server">配置Server</h2>
+<pre><code class="language-nginx">server
+{
+    listen 80;
+	listen 443 ssl http2; # 配饰 443端口 支持https
+    server_name alist.kblue.site;  # 访问域名
+    index index.php index.html index.htm default.php default.htm default.html; # 解析文件顺序
+    root /www/wwwroot/alist.kblue.site # 文件目录
+    
+    #SSL-START SSL相关配置，请勿删除或修改下一行带注释的404规则
+    #error_page 404/404.html;
+    ssl_certificate    /www/server/panel/vhost/cert/alist.kblue.site/fullchain.pem; # 证书
+    ssl_certificate_key    /www/server/panel/vhost/cert/alist.kblue.site/privkey.pem; # 证书秘钥
+    ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;  #协议
+    ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+    # sessions时长
+    ssl_session_timeout 10m;
+    add_header Strict-Transport-Security &quot;max-age=31536000&quot;;  # 配置之后只能通过https访问网站
+    error_page 497  https://$host$request_uri;
+
+    #SSL-END
+    
+    #ERROR-PAGE-START  错误页配置，可以注释、删除或修改
+    #error_page 404 /404.html;
+    #error_page 502 /502.html;
+    #ERROR-PAGE-END
+    
+    #PHP-INFO-START  PHP引用配置，可以注释或修改
+    #清理缓存规则
+
+    location ~ /purge(/.*) {
+        proxy_cache_purge cache_one $host$1$is_args$args;
+        #access_log  /www/wwwlogs/alist.kblue.site_purge_cache.log;
+    }
+    
+    #禁止访问的文件或目录
+    location ~ ^/(\.user.ini|\.htaccess|\.git|\.svn|\.project|LICENSE|README.md)
+    {
+        return 404;
+    }
+    
+    access_log  /www/wwwlogs/alist.kblue.site.log;
+    error_log  /www/wwwlogs/alist.kblue.site.error.log;
+}
+</code></pre>
+<h3 id="配置反向代理">配置反向代理</h3>
+<pre><code class="language-nginx">location /
+{
+    proxy_pass http://127.0.0.1:5244;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    # 配置nginx缓存
+    
+    proxy_ignore_headers Set-Cookie Cache-Control expires;
+    proxy_cache cache_one;
+    proxy_cache_key $host$uri$is_args$args;
+    proxy_cache_valid 200 304 301 302 60m;
+    expires 12h;
+}
+
+</code></pre>
+<h2 id="nginx-使用upstream实现负载均衡">Nginx 使用Upstream实现负载均衡</h2>
+<h3 id="热备">热备</h3>
+<p>如果你有2台服务器，当一台服务器发生事故时，才启用第二台服务器给提供服务。服务器处理请求的顺序：AAAAAA突然A挂啦，BBBBBBBBBBBBBB.....</p>
+<pre><code class="language-nginx">upstream mySvr {
+		server 123.57.89.245:8812;
+		server 127.0.0.1:8812 backup;
+	}
+</code></pre>
+<h3 id="轮询">轮询</h3>
+<p>nginx默认就是轮询其权重都默认为1，服务器处理请求的顺序：ABABABABAB....</p>
+<pre><code class="language-nginx">upstream mysvr { 
+    server 127.0.0.1:7878;
+    server 192.168.10.121:3333;       
+}
+</code></pre>
+<h3 id="加权轮询">加权轮询</h3>
+<p>跟据配置的权重的大小而分发给不同服务器不同数量的请求。如果不设置，则默认为1。下面服务器的请求顺序为：ABBABBABBABBABB....</p>
+<pre><code class="language-nginx">upstream mysvr { 
+    server 127.0.0.1:7878 weight=1;
+    server 192.168.10.121:3333 weight=2;
+}
+</code></pre>
+<h3 id="ip_hash">ip_hash</h3>
+<p>让相同的客户端ip请求相同的服务器。</p>
+<pre><code class="language-ng">upstream mysvr { 
+    server 127.0.0.1:7878; 
+    server 192.168.10.121:3333;
+    ip_hash;
+}
+</code></pre>
+<h3 id="配置">配置</h3>
+<h4 id="配置参数">配置参数</h4>
+<ul>
+<li><code>down</code>，表示当前的server暂时不参与负载均衡。</li>
+<li><code>backup</code>，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。</li>
+<li><code>max_fails</code>，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。</li>
+<li><code>fail_timeout</code>，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。</li>
+</ul>
+<pre><code class="language-nginx"># exp:
+upstream mysvr { 
+    server 127.0.0.1:7878 weight=2 max_fails=2 fail_timeout=2;
+    server 192.168.10.121:3333 weight=1 max_fails=2 fail_timeout=1;    
+}
+</code></pre>
+<h4 id="完整demo">完整demo</h4>
+<pre><code class="language-nginx">upstream mySvr {
+		server 123.57.89.245:8812 max_fails=2;
+		server 127.0.0.1:8812 backup; #  本机的服务作为热备服务 ，当server1出现问题时请求server2
+	}
+     server {
+	  	listen 3000;
+	  	server_name _;
+	  	location / {
+	  		proxy_pass http://mySvr;
+	  		proxy_intercept_errors on;
+	  		proxy_read_timeout 1; #nginx服务器想被代理服务器组发出read请求后，等待响应的超时间，默认为60秒。
+            proxy_send_timeout 1; #nginx服务器想被代理服务器组发出write请求后，等待响应的超时间，默认为60秒。
+	  	}
+
+	     error_page 404 /404.html;
+        		location = /404.html {
+        	}
+	  }
+</code></pre>
+<h2 id="配置ssl">配置SSL</h2>
+<ol>
+<li>申请SSL证书，阿里云等都可以免费申请。申请过程需要自行配置解析。</li>
+<li>下载Ngix证书：文件为 <code>.pem</code>、<code>.key</code>结尾的</li>
+<li>上次证书和秘钥文件到服务器文件下，记住文件夹路径。<code>exp: /home/www/test/nginx.kblue.site.pem</code></li>
+<li>修改Ngix配置文件</li>
+</ol>
+<blockquote>
+<p>进行SSL配置前提：域名备案成功。</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://HejiangL.github.io/post-images/1621564464888.png" alt="" loading="lazy"></figure>
+<pre><code class="language-nginx">server {
+        listen       80 default_server;
+        listen 443 ssl http2; # 配饰 443端口 支持https
+        server_name  nginx.kblue.site;
+        root    /usr/share/nginx/html; # 根目录
+       # 配置 https
+	    ssl_certificate /home/www/test/nginx.kblue.site.pem;  # 证书文件
+         ssl_certificate_key /home/www/test/nginx.kblue.site.key; # 证书文件秘钥
+         ssl_session_cache shared:SSL:1m; # 当服务器启用它时,客户端不必每次请求都进行完全SSL握手,从而节省了时间和CPU资源.
+         ssl_session_timeout  10m; # session 超时时长
+         ssl_ciphers HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers on;
+    
+    
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+		
+	   gzip on;
+	   gzip_buffers 32 4K;
+	   gzip_comp_level 6;
+        gzip_min_length 100;
+	    gzip_types application/javascript text/css text/xml;
+        gzip_disable &quot;MSIE [1-6]\.&quot;;   		 		     #配置禁用gzip条件，支持正则。此处表示ie6及以下不启用gzip（因为ie低版本不支持）
+        gzip_vary on;
+
+        location / {
+        }
+
+        error_page 404 /404.html;
+        location = /404.html {
+        
+        }
+
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+        }
+    }
+</code></pre>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a>
+<ul>
+<li><a href="#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">默认配置文件</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">常用命令</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEserver">配置Server</a>
+<ul>
+<li><a href="#%E9%85%8D%E7%BD%AE%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86">配置反向代理</a></li>
+</ul>
+</li>
+<li><a href="#nginx-%E4%BD%BF%E7%94%A8upstream%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1">Nginx 使用Upstream实现负载均衡</a>
+<ul>
+<li><a href="#%E7%83%AD%E5%A4%87">热备</a></li>
+<li><a href="#%E8%BD%AE%E8%AF%A2">轮询</a></li>
+<li><a href="#%E5%8A%A0%E6%9D%83%E8%BD%AE%E8%AF%A2">加权轮询</a></li>
+<li><a href="#ip_hash">ip_hash</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE">配置</a>
+<ul>
+<li><a href="#%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0">配置参数</a></li>
+<li><a href="#%E5%AE%8C%E6%95%B4demo">完整demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%85%8D%E7%BD%AEssl">配置SSL</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://HejiangL.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://HejiangL.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+  
+</body>
+
+</html>
